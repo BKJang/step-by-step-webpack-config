@@ -9,7 +9,7 @@
 ## Step 1
 > 사전 준비
 
-설정 파일을 만들기 전에, `package.json` 부터 작성해 보도록 하자. 아래 명령어를 실행해서 package.json 파일을 만들자.
+설정 파일을 만들기 전에, `package.json` 부터 작성해 보도록 하자. 아래 명령어를 실행해서 `package.json` 파일을 만들자.
 ```bash
 $ npm init
 ```
@@ -89,7 +89,7 @@ h1 {
 # Step 2
 > 기본적인 webpack 설정 파일 만들기
 
-이제 본격적으로 webpack 설정파일을 만들어 보도록 하자. configs폴더 안에 webpack.config.js 이름으로 파일을 만든다.
+이제 본격적으로 webpack 설정파일을 만들어 보도록 하자. configs폴더 안에 `webpack.config.js` 이름으로 파일을 만든다.
 #### configs/webpack.config.js
 ```js
 const path = require('path');
@@ -104,7 +104,7 @@ module.exports = {
 ```
 가장 기본적인 기능만 포함한 `webpack.config.js` 파일이다. entry는 파일의 진입점이 되는 경로를, output에는 최종적으로 번들링된 파일이 저장 될 경로를 설정한다. 실제 번들링을 해보도록 하자. 그러기 위해 먼저 `package.json`파일을 열고 `script`프로퍼티를 수정하도록하자.
 #### package.json
-```json
+```js
 {
     "scripts": {
       "build": "webpack --config ./configs/webpack.config.js"
@@ -239,7 +239,7 @@ const webpackConfigDev = {
 module.exports = merge(require('./webpack.config.common'), webpackConfigDev);
 ```
 작성이 되었다면 `package.json` 파일에서 `script` 명령어를 수정하도록 하자.
-```json
+```js
 {
   "scripts": {
     "dev": "webpack-dev-server --config ./configs/webpack.config.dev.js" // 수정된 부분
@@ -368,11 +368,11 @@ module.exports = merge(webpackConfigCommon, webpackConfigProd);
 ```
 이제 `package.json`파일의 `script`를 수정해 보도록하자.
 #### package.json
-```json
+```js
 {
     "scripts": {
     "dev": "webpack-dev-server --config ./configs/webpack.config.dev.js",
-    "build": "webpack --config ./configs/webpack.config.prod.js"         // 추가된 부분
+    "build": "webpack --config ./configs/webpack.config.prod.js"
   },
   ...
 }
@@ -381,7 +381,7 @@ module.exports = merge(webpackConfigCommon, webpackConfigProd);
 ```bash
 $ npm run build
 ```
-dist 폴더에 이쁘게 번들되어 저장되는 것을 볼 수 있다. 이제 서버에서는 이 파일들을 그대로 경로에 맞춰서 배포해주기만 하면 된다.
+`dist` 폴더에 이쁘게 번들되어 저장되는 것을 볼 수 있다. 이제 서버에서는 이 파일들을 그대로 경로에 맞춰서 배포해주기만 하면 된다.
 
 #### webpack.config.dev.js
 EJS로 템플릿이 변경되었으므로 dev환경도 조금 수정을 해주어야 사용할 수 있다. 개발 환경에서는 `src` 폴더에 `index.html`을 만들 필요가 있는데 이때 `html-webpack-harddisk-plugin`를 사용하면 조금 더 쉽게 `html`파일을 만들 수 있다.
@@ -470,9 +470,9 @@ $ npm install cross-env --save-dev
     "scripts": {
     "dev": "webpack-dev-server --config ./configs/webpack.config.dev.js",
     "build:alpha": "cross-env PHASE=alpha webpack --config ./configs/webpack.config.prod.js",
-    "build:beta": "webpack PHASE=beta --config ./configs/webpack.config.prod.js",
-    "build:rc": "webpack PHASE=rc --config ./configs/webpack.config.prod.js",
-    "build:release": "webpack PHASE=release --config ./configs/webpack.config.prod.js"
+    "build:beta": "cross-env PHASE=beta webpack --config ./configs/webpack.config.prod.js",
+    "build:rc": "cross-env PHASE=rc webpack --config ./configs/webpack.config.prod.js",
+    "build:release": "cross-env PHASE=release webpack --config ./configs/webpack.config.prod.js"
   },
 }
 ```
